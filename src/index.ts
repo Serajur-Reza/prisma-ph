@@ -1,30 +1,27 @@
 import { PrismaClient } from "@prisma/client";
-import { findPosts } from "./find";
-import { createPosts } from "./create";
-import { updatePosts } from "./update";
-import { deletePosts } from "./delete";
-import { pagination } from "./pagination";
+import { createData } from "./create";
+import { relationalQueries } from "./relational-query";
+import { filtering } from "./filtering";
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+  log: [
+    {
+      emit: "event",
+      level: "query",
+    },
+  ],
+});
+
+prisma.$on("query", (e) => {
+  console.log("Query:", e.query);
+  console.log("Duration:", e.duration, "ms");
+  console.log("Date and Time:", e.timestamp);
+});
 
 const main = async () => {
-  //   const result = await prisma.post.create({
-  //     data: {
-  //       title: "This is title",
-  //       content: "This is content",
-  //       authorName: "Raphael",
-  //     },
-  //   });
-  //find posts
-  //   findPosts();
-  //create posts
-  //   createPosts();
-  //update posts
-  //   updatePosts();
-  //delete posts
-  //   deletePosts();
-  //pagination and sorting
-  pagination();
+  // await createData();
+  await relationalQueries();
+  // await filtering();
 };
 
 main();
