@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { createData } from "./create";
-import { relationalQueries } from "./relational-query";
-import { filtering } from "./filtering";
+import { aggregates } from "./aggregates";
+import { groupBy } from "./groupBy";
+import { batchTransaction } from "./batch";
+import { interactiveTrasaction } from "./interactive";
+import { rawQuery } from "./raw-query";
 
 export const prisma = new PrismaClient({
   log: [
@@ -19,9 +21,12 @@ prisma.$on("query", (e) => {
 });
 
 const main = async () => {
-  // await createData();
-  await relationalQueries();
-  // await filtering();
+  // await aggregates();
+  // await groupBy();
+  // await batchTransaction();
+  // await interactiveTrasaction()
+
+  await rawQuery();
 };
 
 main();
